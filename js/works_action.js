@@ -1,0 +1,276 @@
+//结案
+function jiean(){
+//	alert("nzbx");
+    var ajh_ja = '';
+	var Tab =document.getElementById("dynamic-table");
+	var nrow = Tab.rows.length;
+//	alert(nrow);
+	for(i=1;i<nrow;i++){
+		var falg = Tab.rows[i].cells[0].getElementsByTagName("input")[0].checked;
+		if(falg == true){
+		var ajh = document.getElementById("dynamic-table").rows[i].cells[1].getElementsByTagName("a")[0].innerHTML;
+		var ajh_ja = ajh_ja + ajh +"|";
+		}
+//		alert(falg+","+ajh);
+    }
+	var ajh_ja = ajh_ja.substr(0, ajh_ja.length - 1);
+	
+	if(ajh_ja != ''){
+	    var my_url = "jayy.php?ajh="+ajh_ja;
+		var scr_height = window.screen.availHeight;
+		var scr_width = window.screen.availWidth;
+		var bro_height = 500;
+		var bro_width = 1200;
+		var top = (scr_height-bro_height)/2;
+		var left = (scr_width-bro_width)/2;
+		var specs = "height="+bro_height+",width="+bro_width+",top="+top+",left="+left;
+		var winobj = window.open(my_url,"_blank",specs);
+		var loop = setInterval(function(){
+			if(winobj.closed){
+				clearInterval(loop);
+				parent.location.reload();
+			}
+		},1);
+	}
+}
+//结案2
+function jasave(){
+	var tab_ja = document.getElementById("dynamic-table");
+	var shur = document.getElementsByTagName("input");
+	var tab_rows = tab_ja.rows.length;
+	var RowNum=0;
+	for(var i=1;i<tab_rows;i++){
+		var tab_xx = tab_ja.rows[i].cells;
+		var ajh = tab_xx[0].innerHTML;//案卷号
+		var sqh = tab_xx[1].innerHTML;//申请号
+		var zzmc = tab_xx[2].innerHTML;//著作名称
+		var sqr = tab_xx[3].innerHTML;//申请人
+		var jayy = shur[i-1].value;//结案原因
+		var ja_zs = ajh + "|" + sqh + "|" + zzmc +"|" + sqr;
+	//	alert(ja_zs);
+	//	alert(jayy);
+		RowNum++
+	    $.ajax({
+	    	type:"post",
+	    	url:"up_ja.php",
+	    	async:false,
+	    	data:{
+	    		jaxx:ja_zs,
+	    		jayy:jayy
+	    	},
+	    	success:function(data){
+				if(1){
+					
+//					alert("结案成功");  					
+				}else{
+					alert("数据保存失败");
+				}
+			}
+	    });
+	}
+	if (RowNum) {
+		alert("结案成功");
+	    window.returnValue='1';
+	    window.close();
+	} else{
+		alert('请选中案件后再操作');
+	}
+}
+//删除
+function del(){
+//	alert("nzbx");
+	var Tab =document.getElementById("dynamic-table");
+	var nrow = Tab.rows.length;
+	var RowNum2=0;
+//	alert(nrow);
+	for(i=1;i<nrow;i++){
+		var falg = Tab.rows[i].cells[0].getElementsByTagName("input")[0].checked;
+		var ajh = document.getElementById("dynamic-table").rows[i].cells[1].getElementsByTagName("a")[0].innerHTML;
+//		alert(falg+","+ajh);
+		if(falg == true){
+			RowNum2++;
+			$.ajax({
+				type:"POST",
+				url:"works_action.php",
+				async:false,
+//				dataType:"json",
+				//传参
+				data:{
+					falg_1: "del",
+					ajh: ajh
+				},
+				success:function(data){
+					
+//					alert(data);
+//					alert("成功！");
+				},
+				error:function(){
+//					alert("错误信息");
+//					window.location="index.php";
+				}
+			});
+		}
+	}
+	if (RowNum2) {
+		alert("删除成功");
+		window.location="works.php";
+	} else{
+		alert('请选中案件后再操作');
+	}
+//	alert("删除成功");
+//	window.location="works.php";
+}
+//恢复
+function huif(){
+//	alert("nzbx");
+	var Tab =document.getElementById("dynamic-table");
+	var nrow = Tab.rows.length;
+	var RowNum3=0;
+//	alert(nrow);
+	for(i=1;i<nrow;i++){
+		var falg = Tab.rows[i].cells[0].getElementsByTagName("input")[0].checked;
+		var ajh = document.getElementById("dynamic-table").rows[i].cells[1].getElementsByTagName("a")[0].innerHTML;
+//		alert(falg+","+ajh);
+		if(falg == true){
+			RowNum3++;
+			$.ajax({
+				type:"POST",
+				url:"works_action.php",
+				async:false,
+//				dataType:"json",
+				//传参
+				data:{
+					falg_1: "huif",
+					ajh: ajh
+				},
+				success:function(data){
+					
+//					alert(data);
+//					alert("成功！");
+				},
+				error:function(){
+//					alert("错误信息");
+//					window.location="index.php";
+				}
+			});
+		}
+	}
+	if (RowNum3) {
+		alert("恢复成功");
+		window.location="works.php";
+	} else{
+		alert('请选中案件后再操作');
+	}
+//	alert("恢复成功");
+//	window.location="works.php";
+}
+//最终删除
+function hid(){
+//	alert("nzbx");
+	var Tab =document.getElementById("dynamic-table");
+	var nrow = Tab.rows.length;
+	var RowNum4=0;
+//	alert(nrow);
+	for(i=1;i<nrow;i++){
+		var falg = Tab.rows[i].cells[0].getElementsByTagName("input")[0].checked;
+		var ajh = document.getElementById("dynamic-table").rows[i].cells[1].getElementsByTagName("a")[0].innerHTML;
+//		alert(falg+","+ajh);
+		if(falg == true){
+			RowNum4++;
+			$.ajax({
+				type:"POST",
+				url:"works_action.php",
+				async:false,
+//				dataType:"json",
+				//传参
+				data:{
+					falg_1: "hidden",
+					ajh: ajh
+				},
+				success:function(data){
+					
+//					alert(data);
+//					alert("成功！");
+				},
+				error:function(){
+//					alert("错误信息");
+//					window.location="index.php";
+				}
+			});
+		}
+	}
+	if (RowNum4) {
+		alert("最终删除成功");
+		window.location="works.php";
+	} else{
+		alert('请选中案件后再操作');
+	}
+//	alert("最终删除成功");
+//	window.location="works.php";
+}
+
+
+//导出选中行的Excel清单
+//window.open的post传输数据函数
+function openPostWindow(url, name, data, data2){
+     var tempForm = document.createElement("form");
+     tempForm.id = "tempForm1";
+     tempForm.method = "post";
+     tempForm.action = url;
+     tempForm.target=name;
+     var hideInput1 = document.createElement("input");
+     hideInput1.type = "hidden";
+     hideInput1.name="data";
+     hideInput1.value = data;
+     var hideInput2 = document.createElement("input");
+     hideInput2.type = "hidden";
+     hideInput2.name="data2";
+     hideInput2.value = data2;
+     tempForm.appendChild(hideInput1);
+     tempForm.appendChild(hideInput2);
+     if(document.all){
+         tempForm.attachEvent("onsubmit",function(){});        //IE
+     }else{
+         var subObj = tempForm.addEventListener("submit",function(){},false);    //firefox
+     }
+     document.body.appendChild(tempForm);
+     if(document.all){
+         tempForm.fireEvent("onsubmit");
+     }else{
+         tempForm.dispatchEvent(new Event("submit"));
+     }
+     tempForm.submit();
+     document.body.removeChild(tempForm);
+ }
+function Export_someExcel(tab_id,my_url){
+	$send_id = "";//案卷号
+	$("#"+tab_id+" input").each(function(){
+		if($(this).hasClass("box_son")){
+			if($(this).attr("checked")){
+				$send_id +=  "," + $(this).attr("id");
+			}
+		}
+	});
+	if($send_id != ""){
+		$send_id = $send_id.substr(1,$send_id.length);
+//		console.log($send_id);
+		openPostWindow(my_url,"_blank",$send_id);
+		setTimeout(function(){
+			location.reload();
+		},1000);
+	}else{
+		alert("没有选中行！");
+	}
+	
+}
+
+//打开新建页面
+function Open_add(){
+	var winobj = window.open("case_zz.php","_blank");
+	var loop = setInterval(function(){
+		if(winobj.closed){
+			clearInterval(loop);
+			parent.location.reload();
+		}
+	})
+}
